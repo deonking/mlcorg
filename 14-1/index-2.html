@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="pt-BR">
-<!-- Mirrored from mercadomlcards.shop/14-1/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 13 May 2025 21:34:26 GMT -->
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -7,23 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700&amp;display=swap" rel="stylesheet">
     <title>Cartão Virtual</title>
 
-<script>
-  window.googlePixelId = "6819111d20b0319a5e906333";
-  var a = document.createElement("script");
-  a.setAttribute("async", "");
-  a.setAttribute("defer", "");
-  a.setAttribute("src", "../../cdn.utmify.com.br/scripts/pixel/pixel-google.js");
-  document.head.appendChild(a);
-</script>
-
-<script
-  src="../../cdn.utmify.com.br/scripts/utms/latest.js"
-  data-utmify-prevent-xcod-sck
-  data-utmify-prevent-subids
-  async
-  defer
-></script>
-    
     <style>
         body {
             margin: 0;
@@ -128,6 +111,39 @@
         .button:hover {
             background: #e6b800;
         }
+
+        .notification {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .notification i {
+            color: #fff159;
+            font-size: 20px;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
     </style>
 </head>
 <body>
@@ -142,13 +158,6 @@
         <div class="card" style="background: linear-gradient(135deg, #005b03, #65c732, #0288d1); box-shadow: 0 10px 20px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); overflow: hidden; position: relative;">
             <!-- Efeito de brilho no cartão -->
             <div style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); animation: shine 3s infinite; z-index: 1;"></div>
-            <style>
-                @keyframes shine {
-                    0% { left: -100%; }
-                    20% { left: 100%; }
-                    100% { left: 100%; }
-                }
-            </style>
             
             <!-- Faixa magnética -->
             <div style="position: absolute; top: 20px; left: 0; width: 100%; height: 50px; background-color: #5a5a5a; z-index: 2;"></div>
@@ -181,13 +190,6 @@
 
             <!-- Padrão de segurança no fundo do cartão -->
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 2px, transparent 2px, transparent 4px); pointer-events: none; z-index: 0;"></div>
-            
-            <script>
-                const cardColor = JSON.parse(localStorage.getItem('cardColor'));
-                if (cardColor) {
-                    document.querySelector('.card').style.background = `linear-gradient(45deg, ${cardColor.color1}, ${cardColor.color2})`;
-                }
-            </script>
         </div>
 
         <div style="text-align: center; margin-top: 30px;">
@@ -200,7 +202,7 @@
                     R$ 27,90
             </div>
 
-            <button onclick="this.innerHTML = '<i class=\'fas fa-spinner fa-spin\' style=\'margin-right: 10px;\'></i>Encaminhando para pagamento'; window.location.href = buildUrlWithParams('https://pay.visagold-payments.site/checkout/baa14aae-714f-4f7e-95a3-66d1fc0add07')" class="button">
+            <button id="checkoutButton" class="button">
                     Pagar Frete
             </button>
 
@@ -236,33 +238,7 @@
                 <span style="color: #dc3545; font-size: 12px;">
                     Essa oportunidade é válida apenas hoje! O não pagamento fará que seu cartão seja cancelado
                 </span>
-                <script>
-                    function startTimer(duration, display) {
-                        var timer = duration, minutes, seconds;
-                        var countdown = setInterval(function () {
-                            minutes = parseInt(timer / 60, 10);
-                            seconds = parseInt(timer % 60, 10);
-
-                            minutes = minutes < 10 ? "0" + minutes : minutes;
-                            seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                            display.textContent = minutes + ":" + seconds;
-
-                            if (--timer < 0) {
-                                clearInterval(countdown);
-                                display.textContent = "EXPIRADO";
-                            }
-                        }, 1000);
-                    }
-
-                    window.onload = function () {
-                        var tenMinutes = 60 * 10,
-                            display = document.querySelector('#timer');
-                        startTimer(tenMinutes, display);
-                    };
-                </script>
-        </div>
-            
+            </div>
         </div>
     </div>
 
@@ -330,22 +306,7 @@
                 Não. Após o pagamento, cuidamos de tudo. O envio do cartão é iniciado em até 2 horas, e você receberá o link com o código de rastreamento para acompanhar a entrega. É só aguardar!
             </div>
         </div>
-
-        <script>
-            function toggleFaq(element) {
-                const content = element.nextElementSibling;
-                const icon = element.querySelector('.fa-chevron-down');
-                
-                if (content.style.display === "none") {
-                    content.style.display = "block";
-                    icon.style.transform = "rotate(180deg)";
-                } else {
-                    content.style.display = "none";
-                    icon.style.transform = "rotate(0deg)";
-                }
-            }
-        </script>
-    
+    </div>
 
     <footer style="padding: 10px 15px; text-align: center; margin-top: 50px; background-color: #f9f9f9; border-top: 1px solid #eaeaea; font-family: 'Sora', sans-serif;">
         <div style="max-width: 600px; margin: 0 auto;">
@@ -361,36 +322,41 @@
         </div>
     </footer>
 
-    <style>
-        .notification {
-            position: fixed;
-            left: 20px;
-            bottom: 20px;
-            background: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            border-radius: 8px;
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-
-        .notification.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .notification i {
-            color: #fff159;
-            font-size: 20px;
-        }
-    </style>
-
     <script>
+        // Funções para o FAQ
+        function toggleFaq(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.fa-chevron-down');
+            
+            if (content.style.display === "none") {
+                content.style.display = "block";
+                icon.style.transform = "rotate(180deg)";
+            } else {
+                content.style.display = "none";
+                icon.style.transform = "rotate(0deg)";
+            }
+        }
+
+        // Timer de contagem regressiva
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            var countdown = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(countdown);
+                    display.textContent = "EXPIRADO";
+                }
+            }, 1000);
+        }
+
+        // Notificações
         const nomes = [
             "Ana", "João", "Bianca", "Leonardo", 
             "Rui", "Gustavo", "Gil", "Lia",
@@ -435,11 +401,7 @@
             }, 3000);
         }
 
-        setInterval(mostrarNotificacao, 5000);
-        setTimeout(mostrarNotificacao, 1000);
-    </script>
-
-    <script>
+        // Redirecionamento para checkout
         function getUrlParams() {
             const params = {};
             const queryString = window.location.search;
@@ -453,15 +415,46 @@
 
         function buildUrlWithParams(baseUrl) {
             const params = getUrlParams();
-            const url = new URL(baseUrl%2c%20window.location.html);
+            const url = new URL(baseUrl);
+            
             Object.keys(params).forEach(key => {
                 url.searchParams.append(key, params[key]);
             });
+            
             return url.toString();
         }
+
+        function redirectToCheckout() {
+            const button = document.getElementById('checkoutButton');
+            button.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 10px;"></i>Encaminhando para pagamento';
+            
+            const checkoutUrl = buildUrlWithParams('https://checkout.vendeagora.com/api/public/shopify?product=331896954814&store=3318');
+            
+            setTimeout(function() { 
+                window.location.href = checkoutUrl;
+            }, 1000);
+        }
+
+        // Inicialização
+        window.onload = function () {
+            // Iniciar timer
+            var tenMinutes = 60 * 10,
+                display = document.querySelector('#timer');
+            startTimer(tenMinutes, display);
+
+            // Configurar botão de checkout
+            document.getElementById('checkoutButton').addEventListener('click', redirectToCheckout);
+
+            // Iniciar notificações
+            setInterval(mostrarNotificacao, 5000);
+            setTimeout(mostrarNotificacao, 1000);
+
+            // Configurar cores do cartão se existirem no localStorage
+            const cardColor = JSON.parse(localStorage.getItem('cardColor'));
+            if (cardColor) {
+                document.querySelector('.card').style.background = `linear-gradient(45deg, ${cardColor.color1}, ${cardColor.color2})`;
+            }
+        };
     </script>
-
-
-</div></body>
-<!-- Mirrored from mercadomlcards.shop/14-1/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 13 May 2025 21:34:26 GMT -->
+</body>
 </html>
